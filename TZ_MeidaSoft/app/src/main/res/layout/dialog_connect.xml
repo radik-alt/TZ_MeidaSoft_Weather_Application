@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background_dialog"
+    android:padding="20sp"
+    android:gravity="center">
+
+    <ImageView
+        android:visibility="gone"
+        android:src="@drawable/ic_launcher_foreground"
+        android:layout_width="150sp"
+        android:layout_height="150sp"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="150sp"
+        android:layout_height="150sp" />
+
+    <TextView
+        android:id="@+id/process"
+        android:layout_marginTop="20sp"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:gravity="center"
+        android:text="Обновление..."
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/clickConnect"
+        android:textAllCaps="false"
+        android:layout_marginTop="20sp"
+        android:gravity="center"
+        android:text="Повторить подключение"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
