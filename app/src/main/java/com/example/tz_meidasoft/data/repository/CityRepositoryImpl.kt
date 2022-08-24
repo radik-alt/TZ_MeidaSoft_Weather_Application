@@ -7,8 +7,9 @@ import com.example.tz_meidasoft.data.entity.dbModel.City
 import com.example.tz_meidasoft.data.room.DaoCity
 import com.example.tz_meidasoft.domain.entity.CityDomain
 import com.example.tz_meidasoft.domain.repository.CityRepository
+import javax.inject.Inject
 
-class CityRepositoryImpl(
+class CityRepositoryImpl @Inject constructor(
     private val daoCity: DaoCity,
     private val cityMapper: CityMapper
 ): CityRepository {
