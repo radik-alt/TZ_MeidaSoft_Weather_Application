@@ -1,10 +1,7 @@
 package com.example.tz_meidasoft.presentation.TodayWeather
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.tz_meidasoft.data.entity.CityMapper
 import com.example.tz_meidasoft.data.repository.CityRepositoryImpl
 import com.example.tz_meidasoft.data.repository.RepositoryApiImpl
@@ -15,16 +12,15 @@ import com.example.tz_meidasoft.domain.uescase.Api.GetApiDataCityName
 import com.example.tz_meidasoft.domain.uescase.DB.GetByUsedCity
 import kotlinx.coroutines.*
 import retrofit2.Response
+import javax.inject.Inject
 
-class WeatherViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repositoryApiImpl: RepositoryApiImpl = RepositoryApiImpl()
+class WeatherViewModel @Inject constructor(
+    private val repo: CityRepositoryImpl,
+    private val repoApi : RepositoryApiImpl
+) : ViewModel() {
+
     val responseApi: MutableLiveData<Response<ApiDomain>> = MutableLiveData()
-
-    private val dao = DatabaseCity.getDatabaseCity(application).daoCity()
-    private val mapper = CityMapper()
-    private val repo = CityRepositoryImpl(dao, mapper)
-    private val repoApi = RepositoryApiImpl()
 
     fun getUsedCity():LiveData<CityDomain>{
         return GetByUsedCity(repo).getByUsedCity()

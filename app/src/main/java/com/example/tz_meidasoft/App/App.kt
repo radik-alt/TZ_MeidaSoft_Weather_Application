@@ -8,13 +8,8 @@ import javax.inject.Inject
 
 class App : Application(){
 
-//    @Inject
-//    lateinit var appComponent: AppComponent
-
-    override fun onCreate() {
-        super.onCreate()
-
-//        appComponent = DaggerAppComponent.builder().context(this).build()
+    val component by lazy {
+        DaggerAppComponent.factory().create(this)
     }
 
 }

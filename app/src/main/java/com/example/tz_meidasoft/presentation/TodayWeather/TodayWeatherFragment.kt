@@ -1,5 +1,6 @@
 package com.example.tz_meidasoft.presentation.TodayWeather
 
+import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.tz_meidasoft.App.App
 import com.example.tz_meidasoft.R
 import com.example.tz_meidasoft.data.entity.apiModel.ObjectTempAndWeather
 import com.example.tz_meidasoft.databinding.FragmentTodayWeatherBinding
@@ -19,6 +21,7 @@ import com.example.tz_meidasoft.presentation.adapter.AdapterToday.AdapterTodayNe
 import java.lang.RuntimeException
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 import kotlin.collections.ArrayList
 
 
@@ -30,10 +33,25 @@ class TodayWeatherFragment : Fragment() {
 
 
     private val sharedViewModel : SharedViewModelNextDays by activityViewModels()
-    private lateinit var weatherViewModel: WeatherViewModel
+
+    @Inject
+    lateinit var viewModelFactory: WeatherViewModelFactory
+
+    private val weatherViewModel: WeatherViewModel by lazy{
+        ViewModelProvider(this, viewModelFactory)[WeatherViewModel::class.java]
+    }
+
+    private val component by lazy{
+        (requireActivity().application as App).component
+    }
 
     private var response: ApiDomain?=null
     private var city: CityDomain?=null
+
+    override fun onAttach(context: Context) {
+        component.injectToadyWeatherFragment(this)
+        super.onAttach(context)
+    }
 
     override fun onResume() {
         if (!isConnect()){
@@ -51,9 +69,7 @@ class TodayWeatherFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTodayWeatherBinding.inflate(layoutInflater, container, false)
-        weatherViewModel = ViewModelProvider(this)[WeatherViewModel::class.java]
         setHasOptionsMenu(true)
-
 
         return binding.root
     }

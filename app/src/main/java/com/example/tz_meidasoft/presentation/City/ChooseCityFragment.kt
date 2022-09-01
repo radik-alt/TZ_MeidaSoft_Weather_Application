@@ -54,7 +54,6 @@ class ChooseCityFragment : Fragment() {
             bottomDialog.show(parentFragmentManager, bottomDialog.tag)
         }
 
-        getListCity()
     }
 
     private fun deleteCity(id:Long){
@@ -69,12 +68,12 @@ class ChooseCityFragment : Fragment() {
         viewModel.getListCity().observe(viewLifecycleOwner){list->
             cityList.clear()
             cityList.addAll(list)
-            setAdapter()
+            setAdapter(list)
         }
     }
 
-    private fun setAdapter(){
-        binding.cityWeatherAdapter.adapter = AdapterChooseCity(cityList, object : ChooseCity {
+    private fun setAdapter(list: List<CityDomain>){
+        binding.cityWeatherAdapter.adapter = AdapterChooseCity(list, object : ChooseCity {
             override fun selectCity(city: CityDomain) {
                 val tempCity = CityDomain(
                     id = city.id,
