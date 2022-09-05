@@ -2,6 +2,7 @@ package com.example.tz_meidasoft.data.api
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 
 object GetDataNetworkImpl {
 

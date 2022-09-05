@@ -4,8 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.tz_meidasoft.data.entity.dbModel.City
 import com.example.tz_meidasoft.domain.entity.CityDomain
+import javax.inject.Inject
 
-class CityMapper {
+class CityMapper @Inject constructor() {
 
     fun cityDomainToCity(cityDomain: CityDomain) = City(
         id = cityDomain.id,

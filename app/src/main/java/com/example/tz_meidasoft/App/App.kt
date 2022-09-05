@@ -1,7 +1,15 @@
 package com.example.tz_meidasoft.App
 
 import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
+import com.example.tz_meidasoft.DI.AppComponent
+import com.example.tz_meidasoft.DI.DaggerAppComponent
+import javax.inject.Inject
 
-@HiltAndroidApp
-class App : Application()
+
+class App : Application(){
+
+    val component by lazy {
+        DaggerAppComponent.factory().create(this)
+    }
+
+}
