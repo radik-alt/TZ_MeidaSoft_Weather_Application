@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.example.tz_meidasoft.data.entity.dbModel.City
+import kotlinx.coroutines.flow.Flow
 import retrofit2.http.DELETE
 
 @Dao
@@ -13,6 +14,9 @@ interface DaoCity {
 
     @Query("SELECT * FROM city")
     fun getAllCity() : List<City>
+
+    @Query("SELECT * FROM city")
+    fun getAllCityFlow():Flow<List<City>>
 
     @Insert
     suspend fun insetCity(city: City)

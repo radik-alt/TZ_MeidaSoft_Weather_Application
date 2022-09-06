@@ -1,5 +1,6 @@
 package com.example.tz_meidasoft.presentation.adapter.AdapterNextDays
 
+import android.text.format.DateFormat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -15,8 +16,6 @@ import kotlin.collections.ArrayList
 
 class AdapterNextDays(private val listResponse: List<ListApi>) : RecyclerView.Adapter<ViewHolderNextDays>() {
 
-    private var nowCalendar = Calendar.getInstance()
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderNextDays {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_next_days, parent, false)
         return ViewHolderNextDays(view)
@@ -24,10 +23,17 @@ class AdapterNextDays(private val listResponse: List<ListApi>) : RecyclerView.Ad
 
     override fun onBindViewHolder(holder: ViewHolderNextDays, position: Int) {
 
+        val nowCalendar = Calendar.getInstance()
         nowCalendar.add(Calendar.DAY_OF_YEAR, position)
         Log.d("TAGDate", Calendar.FRIDAY.toString())
 
-        holder.day.text = nowCalendar.time.date.toString()
+        if (position == 0){
+            holder.day.text = "Сегодня"
+        } else if (position == 1){
+            holder.day.text = "Завтра"
+        } else{
+            holder.day.text = convertDate(nowCalendar.time)
+        }
 
         val list = ArrayList<ObjectTempAndWeather>()
         list.add(ObjectTempAndWeather(morn, listResponse[position].temp, listResponse[position].weather[0]))
@@ -36,6 +42,8 @@ class AdapterNextDays(private val listResponse: List<ListApi>) : RecyclerView.Ad
         list.add(ObjectTempAndWeather(night, listResponse[position].temp, listResponse[position].weather[0]))
         holder.recycler.adapter = AdapterInsideNextDays(list)
     }
+
+    private fun convertDate(date: Date): String = DateFormat.format("MM:dd:yyyy", date.time).toString()
 
     companion object{
         const val day = "Днем"

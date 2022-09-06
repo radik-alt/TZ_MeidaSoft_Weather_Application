@@ -1,5 +1,6 @@
 package com.example.tz_meidasoft.presentation.TodayWeather
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
@@ -18,11 +19,13 @@ import com.example.tz_meidasoft.databinding.FragmentTodayWeatherBinding
 import com.example.tz_meidasoft.domain.entity.CityDomain
 import com.example.tz_meidasoft.domain.entity.apiDomain.ApiDomain
 import com.example.tz_meidasoft.presentation.adapter.AdapterToday.AdapterTodayNextDays
+import okhttp3.internal.format
 import java.lang.RuntimeException
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
+import kotlin.math.absoluteValue
 
 
 class TodayWeatherFragment : Fragment() {
@@ -32,14 +35,14 @@ class TodayWeatherFragment : Fragment() {
         get() = _binding ?: throw RuntimeException("FragmentTodayWeatherBinding == null")
 
 
-    private val sharedViewModel : SharedViewModelNextDays by activityViewModels()
-
     @Inject
     lateinit var viewModelFactory: WeatherViewModelFactory
 
     private val weatherViewModel: WeatherViewModel by lazy{
         ViewModelProvider(this, viewModelFactory)[WeatherViewModel::class.java]
     }
+
+    private val sharedViewModel : SharedViewModelNextDays by activityViewModels()
 
     private val component by lazy{
         (requireActivity().application as App).component
@@ -89,8 +92,8 @@ class TodayWeatherFragment : Fragment() {
         if (response != null){
             binding.nameCity.text = response?.city?.name
             binding.degreeWeather.text = Math.round(response?.list?.get(0)?.temp?.day!!).toString()
-            binding.sunrise.text = response?.let { it.list[0].sunrise.toLong() }?.let { convertLongToTime(it) }
-            binding.sunset.text = response?.let { it.list[0].sunset.toLong() }?.let { convertLongToTime(it) }
+//            binding.sunrise.text = response?.let { it.list[0].sunrise.toLong() }?.let { convertLongToTime(it) }
+//            binding.sunset.text = response?.let { it.list[0].sunset.toLong() }?.let { convertLongToTime(it) }
             binding.humidity.text = response!!.list[0].humidity.toString()
             binding.pressure.text = response!!.list[0].pressure.toString()
             binding.speedWind.text = response!!.list[0].speed.toString()
@@ -139,11 +142,8 @@ class TodayWeatherFragment : Fragment() {
         }
     }
 
-    private fun convertLongToTime(time: Long): String {
-        val date = Date(time)
-        val format = SimpleDateFormat("HH:mm")
-        return format.format(date)
-    }
+    private fun convertLongToTime(time: Long): String =
+        String.format("%02d:%02d", (time / 3600)%3600, time / 60 % 60);
 
 
     private fun isConnect () : Boolean {

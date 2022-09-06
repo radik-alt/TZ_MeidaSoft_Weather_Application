@@ -24,7 +24,6 @@ class NextDaysWeatherFragment : Fragment() {
     private val binding : NextDaysWeatherFragmentBinding
         get() = _binding ?: throw RuntimeException("NextDaysWeatherFragmentBinding == null")
 
-    private lateinit var viewModel: NextDaysWeatherViewModel
     private val sharedViewModel : SharedViewModelNextDays by activityViewModels()
     private var response:ApiDomain?=null
 
@@ -38,7 +37,6 @@ class NextDaysWeatherFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = NextDaysWeatherFragmentBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this).get(NextDaysWeatherViewModel::class.java)
 
         return binding.root
     }

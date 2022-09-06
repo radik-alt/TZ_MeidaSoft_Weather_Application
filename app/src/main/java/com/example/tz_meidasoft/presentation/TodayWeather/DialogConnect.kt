@@ -33,11 +33,11 @@ class DialogConnect : DialogFragment() {
         binding.clickConnect.setOnClickListener {
             if (isConnect()){
                 binding.clickConnect.text = "Закрыть!"
-                binding.process.text = "Соединение установлено"
+                binding.process.text = "Соединение установлено!"
                 dismiss()
             } else {
                 binding.clickConnect.text = "Повторить попытку!"
-                binding.process.text = "Нет доступа в интернет!"
+                binding.process.text = "Соединение прервано..."
             }
         }
 

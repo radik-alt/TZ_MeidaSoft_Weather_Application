@@ -29,7 +29,6 @@ class HomeActivity : AppCompatActivity() {
         supportActionBar!!.setCustomView(R.layout.custom_actionbar)
 
         component.inject(this)
-
     }
 
 

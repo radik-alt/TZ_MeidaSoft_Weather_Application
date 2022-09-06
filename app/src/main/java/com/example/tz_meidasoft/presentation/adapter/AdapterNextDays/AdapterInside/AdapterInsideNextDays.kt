@@ -40,7 +40,7 @@ class AdapterInsideNextDays(private val listInside: List<ObjectTempAndWeather>) 
         } else if (listInside[position].day == AdapterNextDays.night) {
             holder.maxDegreeNext.text = listInside[position].temp.night.roundToInt().toString()
         } else {
-            throw (Exception("Таких данных нет"))
+            throw (Exception("AdapterInsideNextDays error with listInside (don't found data)"))
         }
 
         holder.description.text = listInside[position].weather.description

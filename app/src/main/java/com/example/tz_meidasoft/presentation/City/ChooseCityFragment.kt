@@ -10,16 +10,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tz_meidasoft.R
+import com.example.tz_meidasoft.data.entity.CityMapper
 import com.example.tz_meidasoft.data.entity.dbModel.City
 import com.example.tz_meidasoft.databinding.ChooseCityFragmentBinding
 import com.example.tz_meidasoft.domain.entity.CityDomain
 import com.example.tz_meidasoft.presentation.adapter.Interface.ChooseCity
 import com.example.tz_meidasoft.presentation.adapter.ChooseCityAdapter.AdapterChooseCity
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.lang.RuntimeException
 
 class ChooseCityFragment : Fragment() {
@@ -31,9 +37,11 @@ class ChooseCityFragment : Fragment() {
     private lateinit var viewModel: ChooseCityViewModel
     private val cityList: ArrayList<CityDomain> = ArrayList()
 
+    private var adapter: AdapterChooseCity?=null
+
     override fun onResume() {
-        getListCity()
         super.onResume()
+        updateList()
     }
 
     override fun onCreateView(
@@ -41,7 +49,6 @@ class ChooseCityFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = ChooseCityFragmentBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -56,6 +63,16 @@ class ChooseCityFragment : Fragment() {
 
     }
 
+    private fun updateList(){
+        viewModel.getDataList().observe(viewLifecycleOwner){
+            if (cityList.isNotEmpty()){
+                cityList.clear()
+            }
+            cityList.addAll(it)
+            setAdapter()
+        }
+    }
+
     private fun deleteCity(id:Long){
         viewModel.deleteCity(id)
      }
@@ -64,20 +81,12 @@ class ChooseCityFragment : Fragment() {
         viewModel.insertCity(city)
     }
 
-    private fun getListCity(){
-        viewModel.getListCity().observe(viewLifecycleOwner){list->
-            cityList.clear()
-            cityList.addAll(list)
-            setAdapter(list)
-        }
-    }
-
-    private fun setAdapter(list: List<CityDomain>){
-        binding.cityWeatherAdapter.adapter = AdapterChooseCity(list, object : ChooseCity {
+    private fun setAdapter(){
+        adapter =  AdapterChooseCity (object : ChooseCity {
             override fun selectCity(city: CityDomain) {
                 val tempCity = CityDomain(
                     id = city.id,
-                    city = city.city,
+                    city = city.city.trim(),
                     used = true
                 )
                 viewModel.setOtherCityNotUsed()
@@ -86,8 +95,12 @@ class ChooseCityFragment : Fragment() {
             }
         })
 
+        adapter?.setNewListData(cityList)
+        binding.cityWeatherAdapter.adapter = adapter
+
         val simpleCallbackRecycler = ItemTouchHelper(simpleCallback)
         simpleCallbackRecycler.attachToRecyclerView(binding.cityWeatherAdapter)
+
     }
 
     private val simpleCallback :ItemTouchHelper.SimpleCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT){
@@ -115,19 +128,6 @@ class ChooseCityFragment : Fragment() {
                         }).show()
                 }
             }
-        }
-
-        override fun onChildDraw(
-            c: Canvas,
-            recyclerView: RecyclerView,
-            viewHolder: RecyclerView.ViewHolder,
-            dX: Float,
-            dY: Float,
-            actionState: Int,
-            isCurrentlyActive: Boolean
-        ) {
-
-            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
         }
     }
 

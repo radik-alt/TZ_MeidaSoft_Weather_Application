@@ -3,7 +3,6 @@ package com.example.tz_meidasoft.presentation.TodayWeather
 import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.tz_meidasoft.DI.ApplicationScope
 import javax.inject.Inject
 import javax.inject.Provider
 import kotlin.reflect.KClass

@@ -2,16 +2,17 @@ package com.example.tz_meidasoft.presentation.adapter.ChooseCityAdapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tz_meidasoft.R
 import com.example.tz_meidasoft.domain.entity.CityDomain
 import com.example.tz_meidasoft.presentation.adapter.Interface.ChooseCity
 
 class AdapterChooseCity(
-    private val list: List<CityDomain>,
     private val chooseCity: ChooseCity
 ) : RecyclerView.Adapter<ViewHolderChooseCity>() {
 
+    private var list: ArrayList<CityDomain> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderChooseCity {
         val layout = when(viewType){
@@ -39,6 +40,13 @@ class AdapterChooseCity(
     }
 
     override fun getItemCount(): Int = list.size
+
+    fun setNewListData(newList: ArrayList<CityDomain>){
+        val diffUtil = DiffUtilsChooseCity(list, newList)
+        val diffResult = DiffUtil.calculateDiff(diffUtil)
+        diffResult.dispatchUpdatesTo(this)
+        list = newList
+    }
 
 
     companion object{

@@ -11,12 +11,15 @@
 
 
     <TextView
+        android:gravity="center_horizontal"
         android:id="@+id/titleFragment"
-        android:textSize="24sp"
-        android:textColor="@color/black"
-        android:text="@string/title_forecast_next_days"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10sp"
+        android:text="@string/title_forecast_next_days"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="24sp" />
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -24,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/titleFragment"
-        android:layout_marginTop="25sp"
+        android:layout_marginTop="40sp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
 
