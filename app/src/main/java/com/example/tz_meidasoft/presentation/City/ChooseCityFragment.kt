@@ -35,6 +35,7 @@ class ChooseCityFragment : Fragment() {
         get() = _binding ?: throw RuntimeException("ChooseCityFragmentBinding == null")
 
     private lateinit var viewModel: ChooseCityViewModel
+    private val sharedCityViewModel : AddCityViewModel by activityViewModels ()
     private val cityList: ArrayList<CityDomain> = ArrayList()
 
     private var adapter: AdapterChooseCity?=null
@@ -57,10 +58,14 @@ class ChooseCityFragment : Fragment() {
         viewModel = ViewModelProvider(this)[ChooseCityViewModel::class.java]
 
         binding.addCity.setOnClickListener {
-            val bottomDialog = AddCityFragment()
-            bottomDialog.show(parentFragmentManager, bottomDialog.tag)
+            showBottomFragment()
         }
 
+    }
+
+    private fun showBottomFragment(){
+        val bottomDialog = AddCityFragment()
+        bottomDialog.show(parentFragmentManager, bottomDialog.tag)
     }
 
     private fun updateList(){
@@ -83,15 +88,24 @@ class ChooseCityFragment : Fragment() {
 
     private fun setAdapter(){
         adapter =  AdapterChooseCity (object : ChooseCity {
-            override fun selectCity(city: CityDomain) {
+            override fun selectCity(city: CityDomain, isEdit: Boolean) {
                 val tempCity = CityDomain(
                     id = city.id,
                     city = city.city.trim(),
                     used = true
                 )
-                viewModel.setOtherCityNotUsed()
-                viewModel.updateCity(tempCity)
-                Navigation.findNavController(requireView()).navigate(R.id.action_chooseCityFragment_to_todayWeatherFragment)
+
+                if (isEdit){
+                    sharedCityViewModel.setEdit(isEdit)
+                    sharedCityViewModel.setCity(city)
+                    showBottomFragment()
+                } else {
+                    viewModel.setOtherCityNotUsed()
+                    viewModel.updateCity(tempCity)
+                    Navigation.findNavController(requireView()).navigate(R.id.action_chooseCityFragment_to_todayWeatherFragment)
+                }
+
+
             }
         })
 

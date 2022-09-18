@@ -2,6 +2,8 @@ package com.example.tz_meidasoft.presentation.City
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.tz_meidasoft.data.entity.CityMapper
 import com.example.tz_meidasoft.data.repository.CityRepositoryImpl
@@ -18,6 +20,22 @@ class AddCityViewModel(application: Application) : AndroidViewModel(application)
     private val dao = DatabaseCity.getDatabaseCity(application).daoCity()
     private val mapper = CityMapper()
     private val repository = CityRepositoryImpl(dao, mapper)
+
+    private val isEdit = MutableLiveData<Boolean>()
+    private val city = MutableLiveData<CityDomain>()
+
+    fun setEdit(edit: Boolean){
+        isEdit.value = edit
+    }
+
+    fun getIsEdit():LiveData<Boolean> = isEdit
+
+    fun setCity(cityDomain: CityDomain){
+        city.value = cityDomain
+    }
+
+    fun getCity():LiveData<CityDomain> = city
+
 
     fun updateCity(city: CityDomain){
         UpdateCity(repository).updateCity(city)

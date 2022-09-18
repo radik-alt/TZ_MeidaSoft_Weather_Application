@@ -2,18 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom_dialog"
     tools:context=".presentation.City.AddCityFragment"
     android:padding="20sp"
     android:orientation="vertical">
 
    <com.google.android.material.textfield.TextInputLayout
        android:layout_width="match_parent"
-       android:background="@color/white"
        android:layout_height="wrap_content">
 
        <com.google.android.material.textfield.TextInputEditText
            android:hint="Название города"
+           android:background="@drawable/background_dialog"
            android:id="@+id/nameCity"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"/>
@@ -21,10 +22,11 @@
    </com.google.android.material.textfield.TextInputLayout>
 
     <ImageButton
+        android:layout_marginTop="20sp"
         android:layout_gravity="right"
         android:id="@+id/add"
         android:backgroundTint="@color/white"
-        android:src="@drawable/ic_add_24"
+        android:src="@drawable/ic_baseline_send_24"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

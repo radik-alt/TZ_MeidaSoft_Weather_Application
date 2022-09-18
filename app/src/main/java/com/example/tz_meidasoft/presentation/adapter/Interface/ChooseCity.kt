@@ -4,5 +4,5 @@ import com.example.tz_meidasoft.domain.entity.CityDomain
 
 interface ChooseCity {
 
-    fun selectCity(city: CityDomain)
+    fun selectCity(city: CityDomain, isEdit: Boolean)
 }

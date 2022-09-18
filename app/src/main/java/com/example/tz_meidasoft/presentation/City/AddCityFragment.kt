@@ -19,6 +19,24 @@ class AddCityFragment : BottomSheetDialogFragment() {
 
     private val viewModel: AddCityViewModel by activityViewModels()
 
+    private var isEdit = false
+    private var city:CityDomain?=null
+
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getIsEdit().observe(viewLifecycleOwner){
+            isEdit = it
+        }
+
+        if (isEdit){
+            viewModel.getCity().observe(viewLifecycleOwner){
+                city = it
+                setData()
+            }
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,7 +50,12 @@ class AddCityFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         binding.add.setOnClickListener {
-            addCity()
+            if (isEdit){
+                updateCity()
+            } else {
+                addCity()
+            }
+            dismiss()
         }
 
         super.onViewCreated(view, savedInstanceState)
@@ -40,12 +63,35 @@ class AddCityFragment : BottomSheetDialogFragment() {
 
     private fun addCity(){
         val name = binding.nameCity.text.toString()
-        if (name.isNotBlank()){
+        if (validCity(name)){
             val cityDomain = CityDomain(null, name, false)
             viewModel.insertCity(cityDomain)
         }
     }
 
+    private fun updateCity(){
+        val name = binding.nameCity.text.toString()
+        if (validCity(name)){
+            val updateCity = city?.used?.let {
+                CityDomain(
+                    id = city?.id,
+                    city = name,
+                    used = it
+                )
+            }
+            if (updateCity != null) {
+                viewModel.updateCity(updateCity)
+            }
+        }
+    }
+
+    private fun validCity(cityName: String):Boolean{
+        return cityName.isNotBlank()
+    }
+
+    private fun setData(){
+        binding.nameCity.setText(city?.city ?: "")
+    }
 
     override fun onDestroyView() {
         _binding = null

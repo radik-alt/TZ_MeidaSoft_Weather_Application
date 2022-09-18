@@ -27,7 +27,12 @@ class AdapterChooseCity(
         holder.city.text = list[position].city
 
         holder.itemView.setOnClickListener {
-            chooseCity.selectCity(list[position])
+            chooseCity.selectCity(list[position], false)
+        }
+
+        holder.itemView.setOnLongClickListener {
+            chooseCity.selectCity(list[position], true)
+            true
         }
     }
 
