@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bottom_dialog"
-    tools:context=".presentation.City.AddCityFragment"
+    tools:context=".presentation.сity.AddCityFragment"
     android:padding="20sp"
     android:orientation="vertical">
 
@@ -28,6 +28,7 @@
         android:backgroundTint="@color/white"
         android:src="@drawable/ic_baseline_send_24"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:contentDescription="TODO" />
 
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.example.tz_meidasoft.presentation.TodayWeather
+package com.example.tz_meidasoft.presentation.todayWeather
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -7,12 +7,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.DialogFragment
-import com.example.tz_meidasoft.R
 import com.example.tz_meidasoft.databinding.DialogConnectBinding
-import com.example.tz_meidasoft.databinding.FragmentTodayWeatherBinding
 import java.lang.RuntimeException
 
 class DialogConnect : DialogFragment() {

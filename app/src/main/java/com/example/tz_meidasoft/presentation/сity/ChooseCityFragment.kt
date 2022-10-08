@@ -1,32 +1,25 @@
-package com.example.tz_meidasoft.presentation.City
+package com.example.tz_meidasoft.presentation.сity
 
-import android.graphics.Canvas
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tz_meidasoft.R
-import com.example.tz_meidasoft.data.entity.CityMapper
-import com.example.tz_meidasoft.data.entity.dbModel.City
 import com.example.tz_meidasoft.databinding.ChooseCityFragmentBinding
 import com.example.tz_meidasoft.domain.entity.CityDomain
 import com.example.tz_meidasoft.presentation.adapter.Interface.ChooseCity
 import com.example.tz_meidasoft.presentation.adapter.ChooseCityAdapter.AdapterChooseCity
+import com.example.tz_meidasoft.presentation.todayWeather.WeatherViewModelFactory
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import org.intellij.lang.annotations.JdkConstants
 import java.lang.RuntimeException
+import javax.inject.Inject
 
 class ChooseCityFragment : Fragment() {
 
@@ -34,9 +27,13 @@ class ChooseCityFragment : Fragment() {
     private val binding : ChooseCityFragmentBinding
         get() = _binding ?: throw RuntimeException("ChooseCityFragmentBinding == null")
 
-    private lateinit var viewModel: ChooseCityViewModel
+
+    @Inject
+    lateinit var viewModelFactory: WeatherViewModelFactory
+    private val viewModel: ChooseCityViewModel by lazy {
+        ViewModelProvider(this)[ChooseCityViewModel::class.java]
+    }
     private val sharedCityViewModel : AddCityViewModel by activityViewModels ()
-    private val cityList: ArrayList<CityDomain> = ArrayList()
 
     private var adapter: AdapterChooseCity?=null
 
@@ -55,7 +52,6 @@ class ChooseCityFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[ChooseCityViewModel::class.java]
 
         binding.addCity.setOnClickListener {
             showBottomFragment()
@@ -70,11 +66,7 @@ class ChooseCityFragment : Fragment() {
 
     private fun updateList(){
         viewModel.getDataList().observe(viewLifecycleOwner){
-            if (cityList.isNotEmpty()){
-                cityList.clear()
-            }
-            cityList.addAll(it)
-            setAdapter()
+            setAdapter(it)
         }
     }
 
@@ -82,11 +74,7 @@ class ChooseCityFragment : Fragment() {
         viewModel.deleteCity(id)
      }
 
-    private fun addCity(city:CityDomain){
-        viewModel.insertCity(city)
-    }
-
-    private fun setAdapter(){
+    private fun setAdapter(cityList: List<CityDomain>){
         adapter =  AdapterChooseCity (object : ChooseCity {
             override fun selectCity(city: CityDomain, isEdit: Boolean) {
                 val tempCity = CityDomain(
@@ -130,16 +118,20 @@ class ChooseCityFragment : Fragment() {
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
 
             when(direction){
+
                 ItemTouchHelper.LEFT -> {
-                    val city = cityList[viewHolder.adapterPosition]
-                    val idCity = city.id
-                    if (idCity != null) {
-                        deleteCity(idCity)
+
+                    val city = viewModel.getItemCity(viewHolder.absoluteAdapterPosition)
+                    if (city != null) {
+                        city.id?.let { deleteCity(it) }
+                        viewModel.showSnackBar(
+                            requireView(),
+                            "Удален город ${city.city}",
+                            city
+                        )
+                        updateList()
                     }
-                    Snackbar.make(binding.cityWeatherAdapter, "Удален город ${cityList[viewHolder.adapterPosition].city}", Snackbar.LENGTH_SHORT)
-                        .setAction("Отмена", View.OnClickListener {
-                            addCity(city)
-                        }).show()
+
                 }
             }
         }

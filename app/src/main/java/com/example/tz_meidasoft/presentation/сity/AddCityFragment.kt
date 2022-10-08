@@ -1,4 +1,4 @@
-package com.example.tz_meidasoft.presentation.City
+package com.example.tz_meidasoft.presentation.сity
 
 import android.os.Bundle
 import android.view.LayoutInflater

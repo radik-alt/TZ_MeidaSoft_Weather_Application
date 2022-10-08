@@ -1,4 +1,4 @@
-package com.example.tz_meidasoft.DI
+package com.example.tz_meidasoft.di
 
 import android.content.Context
 import com.example.tz_meidasoft.data.room.DaoCity

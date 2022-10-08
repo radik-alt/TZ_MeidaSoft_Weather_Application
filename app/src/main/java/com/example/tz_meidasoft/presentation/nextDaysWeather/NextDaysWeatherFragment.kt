@@ -1,19 +1,13 @@
-package com.example.tz_meidasoft.presentation.NextDaysWeather
+package com.example.tz_meidasoft.presentation.nextDaysWeather
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import com.example.tz_meidasoft.R
-import com.example.tz_meidasoft.data.entity.apiModel.ApiModel
-import com.example.tz_meidasoft.databinding.FragmentTodayWeatherBinding
 import com.example.tz_meidasoft.databinding.NextDaysWeatherFragmentBinding
 import com.example.tz_meidasoft.domain.entity.apiDomain.ApiDomain
-import com.example.tz_meidasoft.presentation.TodayWeather.SharedViewModelNextDays
 import com.example.tz_meidasoft.presentation.adapter.AdapterNextDays.AdapterNextDays
 import java.lang.RuntimeException
 
@@ -43,7 +37,6 @@ class NextDaysWeatherFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
     }
 
     private fun getResponseData(){
@@ -54,7 +47,9 @@ class NextDaysWeatherFragment : Fragment() {
     }
 
     private fun setData(){
-        binding.weatherRecycler.adapter = response?.let { AdapterNextDays(it.list) }
+        binding.weatherRecycler.adapter = response?.let {
+            AdapterNextDays(it.list)
+        }
     }
 
     override fun onDestroyView() {

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tz_meidasoft.R
 import com.example.tz_meidasoft.data.entity.apiModel.ObjectTempAndWeather
+import com.example.tz_meidasoft.databinding.ItemNextDaysBinding
 import com.example.tz_meidasoft.domain.entity.apiDomain.ApiDomain
 import com.example.tz_meidasoft.domain.entity.apiDomain.ListApi
 import com.example.tz_meidasoft.presentation.adapter.AdapterNextDays.AdapterInside.AdapterInsideNextDays
@@ -17,7 +18,7 @@ import kotlin.collections.ArrayList
 class AdapterNextDays(private val listResponse: List<ListApi>) : RecyclerView.Adapter<ViewHolderNextDays>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderNextDays {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_next_days, parent, false)
+        val view = ItemNextDaysBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolderNextDays(view)
     }
 
@@ -25,14 +26,17 @@ class AdapterNextDays(private val listResponse: List<ListApi>) : RecyclerView.Ad
 
         val nowCalendar = Calendar.getInstance()
         nowCalendar.add(Calendar.DAY_OF_YEAR, position)
-        Log.d("TAGDate", Calendar.FRIDAY.toString())
 
-        if (position == 0){
-            holder.day.text = "Сегодня"
-        } else if (position == 1){
-            holder.day.text = "Завтра"
-        } else{
-            holder.day.text = convertDate(nowCalendar.time)
+        when (position) {
+            0 -> {
+                holder.day.text = "Сегодня"
+            }
+            1 -> {
+                holder.day.text = "Завтра"
+            }
+            else -> {
+                holder.day.text = convertDate(nowCalendar.time)
+            }
         }
 
         val list = ArrayList<ObjectTempAndWeather>()
@@ -45,7 +49,7 @@ class AdapterNextDays(private val listResponse: List<ListApi>) : RecyclerView.Ad
 
     private fun convertDate(date: Date): String = DateFormat.format("MM:dd:yyyy", date.time).toString()
 
-    companion object{
+    companion object {
         const val day = "Днем"
         const val eve = "Вечером"
         const val morn = "Утром"

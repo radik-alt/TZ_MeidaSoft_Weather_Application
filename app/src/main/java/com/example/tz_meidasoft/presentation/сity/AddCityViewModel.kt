@@ -1,16 +1,15 @@
-package com.example.tz_meidasoft.presentation.City
+package com.example.tz_meidasoft.presentation.сity
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.example.tz_meidasoft.data.entity.CityMapper
+import com.example.tz_meidasoft.data.mapper.CityMapper
 import com.example.tz_meidasoft.data.repository.CityRepositoryImpl
 import com.example.tz_meidasoft.data.room.DatabaseCity
 import com.example.tz_meidasoft.domain.entity.CityDomain
-import com.example.tz_meidasoft.domain.uescase.DB.InsertCity
-import com.example.tz_meidasoft.domain.uescase.DB.UpdateCity
+import com.example.tz_meidasoft.domain.uescase.db.InsertCityUseCase
+import com.example.tz_meidasoft.domain.uescase.db.UpdateCityUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,12 +37,12 @@ class AddCityViewModel(application: Application) : AndroidViewModel(application)
 
 
     fun updateCity(city: CityDomain){
-        UpdateCity(repository).updateCity(city)
+        UpdateCityUseCase(repository).updateCity(city)
     }
 
     fun insertCity(city:CityDomain){
         CoroutineScope(Dispatchers.Default).launch {
-            InsertCity(repository).insertCity(city)
+            InsertCityUseCase(repository).insertCity(city)
         }
     }
 }

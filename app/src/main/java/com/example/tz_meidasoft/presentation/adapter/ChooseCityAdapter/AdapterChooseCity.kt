@@ -12,7 +12,7 @@ class AdapterChooseCity(
     private val chooseCity: ChooseCity
 ) : RecyclerView.Adapter<ViewHolderChooseCity>() {
 
-    private var list: ArrayList<CityDomain> = ArrayList()
+    private var list: List<CityDomain> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderChooseCity {
         val layout = when(viewType){
@@ -46,7 +46,7 @@ class AdapterChooseCity(
 
     override fun getItemCount(): Int = list.size
 
-    fun setNewListData(newList: ArrayList<CityDomain>){
+    fun setNewListData(newList: List<CityDomain>){
         val diffUtil = DiffUtilsChooseCity(list, newList)
         val diffResult = DiffUtil.calculateDiff(diffUtil)
         diffResult.dispatchUpdatesTo(this)

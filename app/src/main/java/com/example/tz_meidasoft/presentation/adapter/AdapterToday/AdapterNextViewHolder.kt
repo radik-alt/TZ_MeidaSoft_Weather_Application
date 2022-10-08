@@ -5,13 +5,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tz_meidasoft.R
+import com.example.tz_meidasoft.databinding.WeatherThreeBinding
 
-class AdapterNextViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class AdapterNextViewHolder(binding: WeatherThreeBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    val image = itemView.findViewById<ImageView>(R.id.imageWeatherNext)
-    val day = itemView.findViewById<TextView>(R.id.dayNext)
-    val descriptionWeather = itemView.findViewById<TextView>(R.id.descriptionWeatherNext)
-    val maxDegree = itemView.findViewById<TextView>(R.id.maxDegreeNext)
-    val minDegree = itemView.findViewById<TextView>(R.id.minDegreeNext)
+    val image = binding.imageWeatherNext
+    val day = binding.dayNext
+    val descriptionWeather = binding.descriptionWeatherNext
+    val maxDegree = binding.maxDegreeNext
+    val minDegree = binding.minDegreeNext
 
 }

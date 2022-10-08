@@ -1,12 +1,11 @@
 package com.example.tz_meidasoft.presentation.adapter.ChooseCityAdapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.tz_meidasoft.data.entity.dbModel.City
 import com.example.tz_meidasoft.domain.entity.CityDomain
 
 class DiffUtilsChooseCity(
-    private val oldList: ArrayList<CityDomain>,
-    private val newList: ArrayList<CityDomain>
+    private val oldList: List<CityDomain>,
+    private val newList: List<CityDomain>
 ) : DiffUtil.Callback() {
 
     override fun getOldListSize(): Int = oldList.size

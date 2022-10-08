@@ -1,8 +1,8 @@
-package com.example.tz_meidasoft.DI
+package com.example.tz_meidasoft.di
 
 import android.content.Context
 import com.example.tz_meidasoft.presentation.HomeActivity
-import com.example.tz_meidasoft.presentation.TodayWeather.TodayWeatherFragment
+import com.example.tz_meidasoft.presentation.todayWeather.TodayWeatherFragment
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -13,7 +13,7 @@ interface AppComponent {
 
     fun inject(activity: HomeActivity)
 
-    fun injectToadyWeatherFragment(fragment: TodayWeatherFragment)
+    fun inject(fragment: TodayWeatherFragment)
 
     @Component.Factory
     interface AppComponentBuilder{

@@ -1,35 +1,33 @@
 package com.example.tz_meidasoft.data.room
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.example.tz_meidasoft.data.entity.dbModel.City
+import com.example.tz_meidasoft.data.entity.dbModel.CityEntity
 import kotlinx.coroutines.flow.Flow
-import retrofit2.http.DELETE
 
 @Dao
 interface DaoCity {
 
-    @Query("SELECT * FROM city")
-    fun getAllCity() : List<City>
+    @Query("SELECT * FROM cityentity")
+    fun getAllCity() : List<CityEntity>
 
-    @Query("SELECT * FROM city")
-    fun getAllCityFlow():Flow<List<City>>
+    @Query("SELECT * FROM cityentity")
+    fun getAllCityFlow():Flow<List<CityEntity>>
 
     @Insert
-    suspend fun insetCity(city: City)
+    suspend fun insetCity(cityEntity: CityEntity)
 
-    @Query("DELETE FROM city WHERE id=:idCity")
+    @Query("DELETE FROM cityentity WHERE id=:idCity")
     fun deleteCity(idCity:Long)
 
     @Update
-    fun updateCity(city: City)
+    fun updateCity(cityEntity: CityEntity)
 
-    @Query("SELECT * FROM City WHERE used == 1")
-    fun getByUsedCity(): City
+    @Query("SELECT * FROM CityEntity WHERE used == 1")
+    fun getByUsedCity(): CityEntity
 
-    @Query("Update City SET used = 0 WHERE used == 1")
+    @Query("Update CityEntity SET used = 0 WHERE used == 1")
     fun setOtherCityNotUsed()
 }

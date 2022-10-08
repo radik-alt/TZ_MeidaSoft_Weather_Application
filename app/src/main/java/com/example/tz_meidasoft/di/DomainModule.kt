@@ -1,4 +1,4 @@
-package com.example.tz_meidasoft.DI
+package com.example.tz_meidasoft.di
 
 import com.example.tz_meidasoft.data.repository.CityRepositoryImpl
 import com.example.tz_meidasoft.data.repository.RepositoryApiImpl
@@ -18,4 +18,5 @@ interface DomainModule {
     @Singleton
     @Binds
     fun bindRepositoryApi(impl: RepositoryApiImpl):RepositoryApi
+
 }
