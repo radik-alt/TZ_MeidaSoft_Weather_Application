@@ -16,7 +16,7 @@ abstract class DatabaseCity : RoomDatabase() {
         var INSTANCE: DatabaseCity? = null
 
         fun getDatabaseCity(context: Context): DatabaseCity {
-            var tempInstance = INSTANCE
+            val tempInstance = INSTANCE
             if (tempInstance != null) {
                 return tempInstance
             }
@@ -27,9 +27,8 @@ abstract class DatabaseCity : RoomDatabase() {
                     DatabaseCity::class.java,
                     "CityEntity"
                 )
-                    .allowMainThreadQueries()
-                    .fallbackToDestructiveMigration()
-                    .build()
+                .allowMainThreadQueries()
+                .build()
 
                 INSTANCE = roomDataBaseInstance
                 return roomDataBaseInstance

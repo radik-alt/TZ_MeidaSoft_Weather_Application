@@ -69,6 +69,10 @@ class TodayWeatherFragment : Fragment() {
                 findNavController().navigate(R.id.action_todayWeatherFragment_to_nextDaysWeatherFragment)
             }
         }
+
+        binding.toolbar.exit.setOnClickListener {
+            findNavController().navigate(R.id.action_todayWeatherFragment_to_chooseCityFragment)
+        }
     }
 
     private fun setDataWeather() {

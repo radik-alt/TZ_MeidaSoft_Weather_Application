@@ -15,10 +15,10 @@ interface ViewModelModule {
     @Binds
     fun bindWeatherViewModel(impl: WeatherViewModel) : ViewModel
 
-//    @IntoMap
-//    @ViewModelKey(ChooseCityViewModel::class)
-//    @Binds
-//    fun bindChooseCityViewModel(impl: ChooseCityViewModel) : ViewModel
+    @IntoMap
+    @ViewModelKey(ChooseCityViewModel::class)
+    @Binds
+    fun bindChooseCityViewModel(impl: ChooseCityViewModel) : ViewModel
 
 
 }

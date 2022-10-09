@@ -10,7 +10,7 @@
 
     <color name="primaryColor">#52aed3</color>
     <color name="primaryColorActivity">#3786b7</color>
-    <color name="opacityButton">#B0FFFFFF</color>
+    <color name="opacityButton">#B0C0C0C0</color>
     <color name="secondColor">#524365</color>
     <color name="secondColorLight">#5a5388</color>
 </resources>

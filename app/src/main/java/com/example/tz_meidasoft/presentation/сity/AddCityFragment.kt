@@ -25,16 +25,8 @@ class AddCityFragment : BottomSheetDialogFragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.getIsEdit().observe(viewLifecycleOwner){
-            isEdit = it
-        }
-
-        if (isEdit){
-            viewModel.getCity().observe(viewLifecycleOwner){
-                city = it
-                setData()
-            }
-        }
+        getIsEdit()
+        getCity()
     }
 
     override fun onCreateView(
@@ -42,19 +34,13 @@ class AddCityFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View{
         _binding = FragmentAddCityBinding.inflate(inflater, container, false)
-
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         binding.add.setOnClickListener {
-            if (isEdit){
-                updateCity()
-            } else {
-                addCity()
-            }
+            if (isEdit) updateCity() else addCity()
             dismiss()
         }
 
@@ -87,6 +73,21 @@ class AddCityFragment : BottomSheetDialogFragment() {
 
     private fun validCity(cityName: String):Boolean{
         return cityName.isNotBlank()
+    }
+
+    private fun getIsEdit(){
+        viewModel.getIsEdit().observe(viewLifecycleOwner){
+            isEdit = it
+        }
+    }
+
+    private fun getCity(){
+        viewModel.getCity().observe(viewLifecycleOwner){
+            if (isEdit){
+                city = it
+                setData()
+            }
+        }
     }
 
     private fun setData(){

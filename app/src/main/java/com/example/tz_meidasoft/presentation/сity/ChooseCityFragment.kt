@@ -1,5 +1,6 @@
 package com.example.tz_meidasoft.presentation.сity
 
+import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,9 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tz_meidasoft.R
+import com.example.tz_meidasoft.app.App
 import com.example.tz_meidasoft.databinding.ChooseCityFragmentBinding
 import com.example.tz_meidasoft.domain.entity.CityDomain
 import com.example.tz_meidasoft.presentation.adapter.Interface.ChooseCity
@@ -27,19 +30,25 @@ class ChooseCityFragment : Fragment() {
     private val binding : ChooseCityFragmentBinding
         get() = _binding ?: throw RuntimeException("ChooseCityFragmentBinding == null")
 
-
     @Inject
     lateinit var viewModelFactory: WeatherViewModelFactory
     private val viewModel: ChooseCityViewModel by lazy {
-        ViewModelProvider(this)[ChooseCityViewModel::class.java]
+        ViewModelProvider(this, viewModelFactory)[ChooseCityViewModel::class.java]
     }
     private val sharedCityViewModel : AddCityViewModel by activityViewModels ()
+    private val component by lazy{
+        (requireActivity().application as App).component
+    }
 
-    private var adapter: AdapterChooseCity?=null
 
     override fun onResume() {
         super.onResume()
         updateList()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        component.inject(this)
     }
 
     override fun onCreateView(
@@ -75,29 +84,29 @@ class ChooseCityFragment : Fragment() {
      }
 
     private fun setAdapter(cityList: List<CityDomain>){
-        adapter =  AdapterChooseCity (object : ChooseCity {
+        val adapter =  AdapterChooseCity (object : ChooseCity {
             override fun selectCity(city: CityDomain, isEdit: Boolean) {
-                val tempCity = CityDomain(
-                    id = city.id,
-                    city = city.city.trim(),
-                    used = true
-                )
 
                 if (isEdit){
                     sharedCityViewModel.setEdit(isEdit)
                     sharedCityViewModel.setCity(city)
                     showBottomFragment()
                 } else {
+                    val selectCity = CityDomain(
+                        id = city.id,
+                        city = city.city.trim(),
+                        used = true
+                    )
                     viewModel.setOtherCityNotUsed()
-                    viewModel.updateCity(tempCity)
-                    Navigation.findNavController(requireView()).navigate(R.id.action_chooseCityFragment_to_todayWeatherFragment)
+                    viewModel.updateCity(selectCity)
+                    findNavController().navigate(R.id.action_chooseCityFragment_to_todayWeatherFragment)
                 }
 
 
             }
         })
 
-        adapter?.setNewListData(cityList)
+        adapter.setNewListData(cityList)
         binding.cityWeatherAdapter.adapter = adapter
 
         val simpleCallbackRecycler = ItemTouchHelper(simpleCallback)
