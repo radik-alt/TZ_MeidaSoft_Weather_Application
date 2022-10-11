@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -20,6 +22,11 @@ import com.example.tz_meidasoft.presentation.adapter.Interface.ChooseCity
 import com.example.tz_meidasoft.presentation.adapter.ChooseCityAdapter.AdapterChooseCity
 import com.example.tz_meidasoft.presentation.todayWeather.WeatherViewModelFactory
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.intellij.lang.annotations.JdkConstants
 import java.lang.RuntimeException
 import javax.inject.Inject

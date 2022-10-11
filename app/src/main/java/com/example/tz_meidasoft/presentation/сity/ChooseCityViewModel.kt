@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.view.View
 import androidx.lifecycle.*
+import com.example.tz_meidasoft.data.entity.dbModel.CityEntity
 import com.example.tz_meidasoft.data.mapper.CityMapper
 import com.example.tz_meidasoft.data.repository.CityRepositoryImpl
 import com.example.tz_meidasoft.data.room.DatabaseCity
@@ -12,6 +13,7 @@ import com.example.tz_meidasoft.domain.uescase.db.*
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

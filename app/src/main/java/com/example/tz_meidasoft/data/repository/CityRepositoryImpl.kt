@@ -1,5 +1,6 @@
 package com.example.tz_meidasoft.data.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.tz_meidasoft.data.mapper.CityMapper
@@ -11,7 +12,6 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
 class CityRepositoryImpl @Inject constructor(
     private val daoCity: DaoCity,
     private val cityMapper: CityMapper
@@ -22,6 +22,7 @@ class CityRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAllCityFlow():Flow<List<CityEntity>>{
+        Log.d("GetCity", this.toString())
         return daoCity.getAllCityFlow()
     }
 
